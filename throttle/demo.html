@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.js"></script>
+		<style media="screen">
+			#btn {width: 100px;height: 30px;}
+		</style>
+	</head>
+	<body>
+		<button id="btn" type="button" name="button">赞</button>
+		<span id="num"></span>
+
+		<script type="text/javascript">
+			// 3秒内,无论点击多少次按钮都只执行一次
+			$('#btn').on('click',throttle(3000,function () {
+				$.ajax({
+					url: 'test.json',
+					type: 'get',
+					data: {},
+					dataType: 'json',
+					success: function (res) {
+						console.log(res);
+					},
+					error: function () {
+						console.log('请求失败');
+					}
+				})
+			}));
+
+			// second 时间间隔 callback回调函数
+			function throttle(second,callback) {
+				var timer;
+				return function () {
+					if (!timer) {
+						// 创建定时器,并在second毫秒后销毁
+						timer = setTimeout(function () {
+							timer = null;
+						},second);
+						callback();
+					}
+				}
+			}
+		</script>
+	</body>
+</html>
